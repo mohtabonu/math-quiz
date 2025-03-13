@@ -8,8 +8,10 @@ const counterElm = document.querySelector("#quiz-count");
 // ! Davlatbek
 let time = 15;
 let timer;
-let count = 1
-let answersStatus=[]
+let count = 1;
+let answersStatus = [];
+let currentQuiz = 1;
+let data = {};
 function startTimer() {
   clearInterval(timer);
   time = 15;
@@ -20,7 +22,8 @@ function startTimer() {
       timerElm.innerText = time;
       time--;
     } else {
-      answersStatus.push(0)
+      answersStatus.push(0);
+      currentQuiz++
       clearInterval(timer);
       init();
     }
@@ -34,7 +37,6 @@ function generateQuestion() {
   let operations = ["+", "-", "*"];
   let operation = operations[Math.floor(Math.random() * operations.length)];
 
-
   let correctAnswer = eval(`${number1} ${operation} ${number2}`);
   let answers = [correctAnswer];
 
@@ -43,10 +45,17 @@ function generateQuestion() {
     if (!answers.includes(randomAnswer)) answers.push(randomAnswer);
   }
   answers.sort(() => Math.random() - 0.5);
-  return { number1, number2, operation, correctAnswer, answers };
+  data[currentQuiz] = {
+    number1,
+    number2,
+    operation,
+    answers: [...answers],
+    correctAnswer
+};
 }
 
 function renderQuiz(question) {
+  console.log(question)
   number1Elm.innerText = question.number1;
   number2Elm.innerText = question.number2;
   operationElm.innerText = question.operation;
@@ -59,44 +68,43 @@ function renderQuiz(question) {
 }
 
 function checkAnswer(btn, selectedAnswer, correctAnswer) {
-  if (selectedAnswer === correctAnswer){
+  if (selectedAnswer === correctAnswer) {
     btn.classList.add("green");
-    answersStatus.push(1)
-  }
-  else{
+    answersStatus.push(1);
+  } else {
     btn.classList.add("red");
-    answersStatus.push(0)
+    answersStatus.push(0);
   }
-
+  
   setTimeout(() => {
     if (btn.classList.contains("green")) btn.classList.remove("green");
     else btn.classList.remove("red");
     init();
   }, 1000);
+  currentQuiz++
 }
-
 
 // Jasurbek
 
 function showResult() {
-  let correctAnswers=0;
-  let inCorrectAnswers=0;
-  answersStatus.forEach(answer=>{
-    if (answer) correctAnswers++
-    else inCorrectAnswers++
-  })
+  let correctAnswers = 0;
+  let inCorrectAnswers = 0;
+  answersStatus.forEach((answer) => {
+    if (answer) correctAnswers++;
+    else inCorrectAnswers++;
+  });
   alert(`Tog'ri javoblar: ${correctAnswers} ta,
-Noto'g'ri javoblar: ${inCorrectAnswers} ta`)
+Noto'g'ri javoblar: ${inCorrectAnswers} ta`);
 }
-const questions = [];
+// const questions = [];
 function init() {
-  let question = generateQuestion();
-  questions.push(question);
+  generateQuestion();
+  let question = data[currentQuiz]
+  console.log(question)
   renderQuiz(question);
   startTimer();
-  counterElm.innerText = `Quiz: ${count}`;
-  if (count===11) showResult()
-  count++;
+  counterElm.innerText = `Quiz: ${currentQuiz}`;
+  if (currentQuiz === 11) showResult();
 }
 
 init();
