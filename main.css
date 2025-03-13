@@ -63,8 +63,8 @@ ul,li{
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-.variants li {
-   
+.variants button {
+    border: none;
     padding: 15px 30px;
     background: #2575fc;
     color: white;
