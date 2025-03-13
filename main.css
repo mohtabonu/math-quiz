@@ -149,5 +149,5 @@ p {
 }
 .opacity-50{
     opacity: 0.5;
-    cursor: auto;
+    cursor: auto !important;
 }

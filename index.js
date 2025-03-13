@@ -13,11 +13,12 @@ let timer;
 let count = 1;
 let answersStatus = [];
 let currentQuiz = 1;
-let isPrevios=false
+let isPrevios = false;
 let data = {};
+let isPaused=false
 function startTimer() {
   clearInterval(timer);
-  time = 15;
+  if (!isPaused) time = 15;
   timerElm.innerText = time;
 
   timer = setInterval(() => {
@@ -28,6 +29,7 @@ function startTimer() {
       answersStatus.push(0);
       currentQuiz++;
       clearInterval(timer);
+      isPaused=false
       init();
     }
   }, 1000);
@@ -59,14 +61,13 @@ function generateQuestion() {
 
 function renderQuiz(question) {
   if (currentQuiz === Object.keys(data).length) {
+    startTimer()
     next.setAttribute("disabled", "true");
     next.classList.add("opacity-50");
-    unDisbaleAnswers()
-    isPrevios=false
+    unDisbaleAnswers();
   } else {
     next.removeAttribute("disabled");
     next.classList.remove("opacity-50");
-
   }
   number1Elm.innerText = question.number1;
   number2Elm.innerText = question.number2;
@@ -86,7 +87,6 @@ function checkAnswer(btn, selectedAnswer, correctAnswer) {
   } else {
     btn.classList.add("red");
     answersStatus.push(0);
-    isPrevios=false
   }
 
   setTimeout(() => {
@@ -110,27 +110,37 @@ function showResult() {
 Noto'g'ri javoblar: ${inCorrectAnswers} ta`);
 }
 function disbaleAnswers() {
-  answerBtns.forEach(btn =>{
+  answerBtns.forEach((btn) => {
     btn.setAttribute("disabled", "true");
     btn.classList.add("opacity-50");
-  })
+  });
 }
 function unDisbaleAnswers() {
-  answerBtns.forEach(btn =>{
+  answerBtns.forEach((btn) => {
     btn.removeAttribute("disabled");
     btn.classList.remove("opacity-50");
-  })
+  });
 }
 
 previous.addEventListener("click", () => {
-  isPrevios=true
+  isPrevios = true;
   currentQuiz--;
+  if (currentQuiz === 1) {
+    previous.setAttribute("disabled", "true");
+    previous.classList.add("opacity-50");
+  } else {
+    previous.removeAttribute("disabled");
+    previous.classList.remove("opacity-50");
+  }
   clearInterval(timer);
+  isPaused=true
   renderQuiz(data[currentQuiz]);
   counterElm.innerText = `Quiz: ${currentQuiz}`;
-  if (isPrevios) disbaleAnswers()
+  if (isPrevios) disbaleAnswers();
 });
 next.addEventListener("click", () => {
+  previous.removeAttribute("disabled");
+  previous.classList.remove("opacity-50");
   currentQuiz++;
   clearInterval(timer);
   renderQuiz(data[currentQuiz]);
@@ -149,6 +159,7 @@ function init() {
   generateQuestion();
   let question = data[currentQuiz];
   renderQuiz(question);
+  isPaused=false
   startTimer();
   counterElm.innerText = `Quiz: ${currentQuiz}`;
   if (currentQuiz === 11) showResult();
