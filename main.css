@@ -10,9 +10,6 @@ body {
     position: relative;
 }
 
-ul,li{
-    list-style-type: none;
-}
 
 .container {
     display: flex;
@@ -92,9 +89,12 @@ ul,li{
 
 .primers {
     display: flex;
+    flex-wrap: wrap;
     gap: 15px;
     justify-content: center;
+    list-style-type: none;
     margin-top: 20px;
+    width: 700px;
 }
 
 .primers li {

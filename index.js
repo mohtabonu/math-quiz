@@ -1,8 +1,31 @@
+const timerElm = document.querySelector('#timer')
 const number1Elm = document.querySelector('#number1')
 const number2Elm = document.querySelector('#number2')
 const operationElm = document.querySelector('#operation')
 const answerBtns = document.querySelectorAll('button')
 
+// ! Davlatbek
+let time = 15
+let timer;
+function startTimer() {
+  clearInterval(timer);
+  time = 15;
+  timerElm.innerText = time;
+
+  timer = setInterval(() => {
+    if (time >= 0) {
+      timerElm.innerText = time;
+      time--;
+    } else {
+      clearInterval(timer);
+      alert('Vaqt tugadi, keyingi savol.');
+      init();
+    }
+  }, 1000);
+}
+
+
+// ! Mohatabonu
 function generateQuestion () {
   let number1 = Math.floor(Math.random() * 100)
   let number2 = Math.floor(Math.random() * 100)
@@ -51,6 +74,7 @@ function init () {
   let question = generateQuestion()
   questions.push(question);
   renderQuiz(question)
+  startTimer();
 }
 
 init()
