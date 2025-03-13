@@ -4,6 +4,8 @@ const number2Elm = document.querySelector("#number2");
 const operationElm = document.querySelector("#operation");
 const answerBtns = document.querySelectorAll("#variant");
 const counterElm = document.querySelector("#quiz-count");
+const previous = document.querySelector("#prev-question");
+const next = document.querySelector("#next-question");
 
 // ! Davlatbek
 let time = 15;
@@ -11,6 +13,7 @@ let timer;
 let count = 1;
 let answersStatus = [];
 let currentQuiz = 1;
+let isPrevios=false
 let data = {};
 function startTimer() {
   clearInterval(timer);
@@ -23,7 +26,7 @@ function startTimer() {
       time--;
     } else {
       answersStatus.push(0);
-      currentQuiz++
+      currentQuiz++;
       clearInterval(timer);
       init();
     }
@@ -50,12 +53,21 @@ function generateQuestion() {
     number2,
     operation,
     answers: [...answers],
-    correctAnswer
-};
+    correctAnswer,
+  };
 }
 
 function renderQuiz(question) {
-  console.log(question)
+  if (currentQuiz === Object.keys(data).length) {
+    next.setAttribute("disabled", "true");
+    next.classList.add("opacity-50");
+    unDisbaleAnswers()
+    isPrevios=false
+  } else {
+    next.removeAttribute("disabled");
+    next.classList.remove("opacity-50");
+
+  }
   number1Elm.innerText = question.number1;
   number2Elm.innerText = question.number2;
   operationElm.innerText = question.operation;
@@ -74,14 +86,15 @@ function checkAnswer(btn, selectedAnswer, correctAnswer) {
   } else {
     btn.classList.add("red");
     answersStatus.push(0);
+    isPrevios=false
   }
-  
+
   setTimeout(() => {
     if (btn.classList.contains("green")) btn.classList.remove("green");
     else btn.classList.remove("red");
     init();
   }, 1000);
-  currentQuiz++
+  currentQuiz++;
 }
 
 // Jasurbek
@@ -96,11 +109,45 @@ function showResult() {
   alert(`Tog'ri javoblar: ${correctAnswers} ta,
 Noto'g'ri javoblar: ${inCorrectAnswers} ta`);
 }
-// const questions = [];
+function disbaleAnswers() {
+  answerBtns.forEach(btn =>{
+    btn.setAttribute("disabled", "true");
+    btn.classList.add("opacity-50");
+  })
+}
+function unDisbaleAnswers() {
+  answerBtns.forEach(btn =>{
+    btn.removeAttribute("disabled");
+    btn.classList.remove("opacity-50");
+  })
+}
+
+previous.addEventListener("click", () => {
+  isPrevios=true
+  currentQuiz--;
+  clearInterval(timer);
+  renderQuiz(data[currentQuiz]);
+  counterElm.innerText = `Quiz: ${currentQuiz}`;
+  if (isPrevios) disbaleAnswers()
+});
+next.addEventListener("click", () => {
+  currentQuiz++;
+  clearInterval(timer);
+  renderQuiz(data[currentQuiz]);
+  counterElm.innerText = `Quiz: ${currentQuiz}`;
+});
+
 function init() {
+  if (currentQuiz === 1) {
+    previous.setAttribute("disabled", "true");
+    previous.classList.add("opacity-50");
+  } else {
+    previous.removeAttribute("disabled");
+    previous.classList.remove("opacity-50");
+  }
+
   generateQuestion();
-  let question = data[currentQuiz]
-  console.log(question)
+  let question = data[currentQuiz];
   renderQuiz(question);
   startTimer();
   counterElm.innerText = `Quiz: ${currentQuiz}`;

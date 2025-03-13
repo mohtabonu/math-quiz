@@ -147,3 +147,7 @@ p {
 .d-none{
     display: none;
 }
+.opacity-50{
+    opacity: 0.5;
+    cursor: auto;
+}
