@@ -1,0 +1,118 @@
+body {
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    font-family: "Poppins", sans-serif;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    position: relative;
+}
+
+ul,li{
+    list-style-type: none;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: max-content;
+}
+
+.stopwatch {
+    width: 100px;
+    height: 100px;
+    background: #fff;
+    color: #6a11cb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 24px;
+    font-weight: bold;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.tasks {
+    width: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    font-size: 50px;
+    font-weight: 600;
+    color: #6a11cb;
+    margin-bottom: 20px;
+}
+
+.variants {
+    width: 450px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.variants li {
+   
+    padding: 15px 30px;
+    background: #2575fc;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.variants li:hover {
+    background: #6a11cb;
+}
+
+.red{
+    background: rgb(255, 76, 76) !important;
+    color: white !important;
+  
+}
+.green{
+    background: rgb(103, 255, 65) !important;
+    color: white !important;
+}
+
+.primers {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.primers li {
+    background: white;
+    color: #6a11cb;
+    padding: 20px 30px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.primers li:hover {
+    background: #2575fc;
+    color: white;
+}
+
+.d-none{
+    display: none;
+}
