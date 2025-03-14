@@ -1,3 +1,4 @@
+
 const timerElm = document.querySelector("#timer");
 const number1Elm = document.querySelector("#number1");
 const number2Elm = document.querySelector("#number2");
@@ -166,3 +167,6 @@ function init() {
 }
 
 init();
+
+
+
